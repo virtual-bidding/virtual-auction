@@ -81,10 +81,21 @@ WSGI_APPLICATION = 'virtual_auction.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dgme9vc7h1i63',
+        'USER': 'rnnapoqyaslvao',
+        'PASSWORD': 'ff831aecbc5f57ec9df5a7b4576946dd92319a91a59b6ab82f1333a3c311d27c',
+        'HOST': 'ec2-52-5-110-35.compute-1.amazonaws.com',
+        'PORT':  '5432',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
