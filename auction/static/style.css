@@ -29,9 +29,8 @@ img{max-width:100%;}
 /*end reset*/
 body{
 	font-family: 'Open Sans', sans-serif;
-	background: url({% static 'images/banner5.jpg' %}) no-repeat 0px 0px;
+	background: url('/auction/static/images/banner5.jpg') no-repeat 0px 0px;
 	background-size:cover;
-	
 }
 .header {
     text-align: center;
@@ -279,9 +278,6 @@ select{
 .contact-w3 input[type="submit"] {
     padding: 0.7em;	
 }
-@media(max-width:375px){
-	
-}
 @media(max-width:320px){
 .header h1 {
     font-size: 1.5em;
@@ -293,4 +289,7 @@ select{
 .footer-w3-agile p {
     font-size: .85em;	
 }
-
+}
+}
+}
+}
