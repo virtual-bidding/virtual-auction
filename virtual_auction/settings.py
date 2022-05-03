@@ -82,10 +82,10 @@ WSGI_APPLICATION = 'virtual_auction.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dgme9vc7h1i63',
-        'USER': 'rnnapoqyaslvao',
-        'PASSWORD': 'ff831aecbc5f57ec9df5a7b4576946dd92319a91a59b6ab82f1333a3c311d27c',
-        'HOST': 'ec2-52-5-110-35.compute-1.amazonaws.com',
+        'NAME': 'de3099pkh480u6',
+        'USER': 'jlwkhpqsbnostr',
+        'PASSWORD': '2646f8688729b62195611f825507685f5dc4389eadf1275cc57f725b11eeea46',
+        'HOST': 'ec2-44-196-223-128.compute-1.amazonaws.com',
         'PORT':  '5432',
     }
 }
@@ -139,7 +139,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets/')
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static/'),
+    os.path.join(BASE_DIR, 'auction/static/'),
 )
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

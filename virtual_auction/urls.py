@@ -71,15 +71,9 @@ urlpatterns = [
     path('delete_session_time(<int:pid>)', delete_session_time, name='delete_session_time'),
     path('load-courses/', load_courses, name='ajax_load_courses'),
     path('load-courses1/', load_courses1, name='ajax_load_courses1'),
-    path('product_detail2(<int:pid>)', product_detail2, name='product_detail2'),
-
-
-    
+    path('product_detail2(<int:pid>)', product_detail2, name='product_detail2'),    
     path("productView/<int:myid>",productView, name="ProductViews"),
     path("prod/<int:myid>",productView, name="ProductView"),
     # path("", home, name="Shop Home"),
     path('', home,name="home"),
-        
-   
-    
-]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
