@@ -1,9 +1,13 @@
 {% extends 'navigation.html' %} {% block body %}
-<div class="text-center" style="margin-top: 20%">
+<div class="text-center d-flex flex-column" style="margin-top: 20%">
   {% if status == "Success" %}
   <h2>THANKS YOUR PAYMENT HAS BEEN RECEIVED. Login and Proceed to bidding.</h2>
   {% else %}
   <h2>SORRY, YOUR PAYMENT HAS BEEN FAILED. Please Login and try again.</h2>
   {% endif %}
+  <br />
+  <a>
+    <button type="button" class="btn btn-primary">Go to Login</button>
+  </a>
 </div>
 {% endblock %}

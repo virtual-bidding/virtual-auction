@@ -5,7 +5,7 @@
 <center><h2 style = "font-family : 'Monotype Corsiva' ; color : #E6120E ; font-weight : bold;margin-top:2%">Select Payment Mode</h2></center><hr>
 <div class="container-fluid" style="margin-top:5%">
     <div class="row">
-        <div class="col-md-3">
+        <!-- <div class="col-md-3">
             <a href="{% url 'Member_Google_pay' %}"> <img src="{% static 'images/phone_pay.png' %}" style="height:150px;border:1px solid grey;border-radius:8px;width:100%"></a>
         </div>
         <div class="col-md-3">
@@ -16,7 +16,35 @@
         </div>
         <div class="col-md-3">
             <a href="{% url 'Member_Credit_Card'  %}"><img src="{% static 'images/credit_card.png' %}" style="height:150px;border:1px solid grey;border-radius:8px;width:100%"></a>
-        </div>
+        </div> -->
+        <div
+        class="d-flex w-100 flex-column justify-self-center align-items-center"
+      >
+        <h1>Membership needed!</h1>
+        <h3>Hii, {{ request.user.username}}</h3>
+        <br />
+        <p>
+          Please, Pay Rs.100 as deposit for viewing the products and to bid for
+          them.
+        </p>
+        <br />
+        <br />
+        <form action="{% url 'rzp_payment' %}" method='POST'>
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Name</label>
+              <input type="name" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{request.user.first_name}}">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Amount</label>
+              <input type="number" name="amount" class="form-control" id="exampleInputPassword1" value="100">
+            </div>
+            <div>
+            <button type="submit" class="btn btn-primary">Pay Now</button>
+            </div>
+          </form>
+        </a>
+      </div>
     </div>
 
 </div>

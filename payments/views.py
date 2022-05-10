@@ -7,8 +7,7 @@ from virtual_auction.settings import client
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
-def order_payment(request,pid):
-    pid =int(pid)
+def order_payment(request):
     if request.method == "POST":
         name = request.POST.get("name")
         amount = request.POST.get("amount")
@@ -23,7 +22,7 @@ def order_payment(request,pid):
             request,
             "payment.html",
             {
-                "callback_url": "http://" + "127.0.0.1:8000" + "/razorpay/callback/" + str(pid),
+                "callback_url": "http://" + "127.0.0.1:8000" + "/razorpay/callback/",
                 "razorpay_key": 'rzp_test_SB0rBFhDAVWgV5',
                 "order": order,
             },
@@ -31,8 +30,7 @@ def order_payment(request,pid):
     return render(request, "payment.html")
 
 @csrf_exempt
-def callback(request,pid):
-    pid =int(pid)
+def callback(request):
     def verify_signature(response_data):
         return client.utility.verify_payment_signature(response_data)
 
