@@ -151,7 +151,7 @@
             <a
               class="nav-link"
               href="{% url 'profile1' %}"
-              style="color: White; margin-left: 20px"
+              style="color: White"
             >
               <ion-icon style="margin-right: 4px" name="home-sharp"></ion-icon>
               HOME
@@ -210,7 +210,7 @@
             <a
               class="nav-link"
               href="{% url 'profile1' %}"
-              style="color: White; margin-left: 200px"
+              style="color: White"
             >
               <ion-icon style="margin-right: 2px" name="home-sharp"></ion-icon>
               HOME
@@ -261,11 +261,7 @@
           </li>
           {% endifequal %} {% else %} {% comment %} main nav {% endcomment %}
           <li class="nav-item">
-            <a
-              class="nav-link"
-              href="{% url 'home'  %}"
-              style="color: white; margin-left: 20px"
-            >
+            <a class="nav-link" href="{% url 'home'  %}" style="color: white">
               <ion-icon style="margin-right: 2px" name="home-sharp"></ion-icon
               ><b>HOME</b>
             </a>

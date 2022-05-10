@@ -1,0 +1,31 @@
+{% extends 'navigation.html' %}{% load static %} {% block body %}
+<form method="POST">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    var options = {
+      key: "{{razorpay_key}}",
+      amount: "{{order.amount}}",
+      currency: "INR",
+      name: "{{order.name}}",
+      description: "Buy Membership",
+      order_id: "{{order.provider_order_id}}",
+      callback_url: "{{callback_url}}",
+      redirect: true,
+      prefill: {
+        name: "{{request.user.username}}",
+        email: "{{request.user.email}}",
+        contact: "{{request.user.mobile}}",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+  </script>
+  <input type="hidden" custom="Hidden Element" name="hidden" />
+  <h1 class="text-center m-5 p-5">
+    Please, don't press refresh or close the window.
+  </h1>
+</form>
+{% endblock %}

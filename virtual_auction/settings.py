@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import razorpay as rpay
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,6 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '_igtoud8=l*xejhiwtfz$ce-fu*%80&^hybem91#g#)5j7td#z'
+
+# Razorpay
+client = rpay.Client(
+    auth=('rzp_test_SB0rBFhDAVWgV5', '0X1knCOU5kPM9A7hg521xuCJ'))
+client.set_app_details({"title": "Riders United", "version": "1"})
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'auction',
+    'payments',
 ]
 
 MIDDLEWARE = [
