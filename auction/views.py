@@ -10,7 +10,7 @@ from django.shortcuts import render
 import random
 
 # Create your views here.
-def Home(request):
+def home(request):
     data = 0
     error = ""
     user=""
@@ -26,7 +26,7 @@ def Home(request):
     except:
         pass
     try:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
         return redirect('trainer_home')
     except:
         pass
@@ -41,15 +41,15 @@ def new():
     return new_pro
 
 
-def About(request):
+def about(request):
     return render(request, 'about.html')
 
 
-def Contact(request):
+def contact(request):
     return render(request, 'contact.html')
 
 
-def Login_User(request):
+def loginUser(request):
     error = ""
     if request.method == "POST":
         u = request.POST['uname']
@@ -73,7 +73,7 @@ def Login_User(request):
     return render(request, 'login.html', d)
 
 
-def Login_Admin(request):
+def loginAdmin(request):
     error = ""
     if request.method == "POST":
         u = request.POST['uname']
@@ -88,7 +88,7 @@ def Login_Admin(request):
     d = {'error': error}
     return render(request, 'loginadmin.html', d)
 
-def Signup_User(request):
+def signupUser(request):
     error = False
     if request.method == 'POST':
         f = request.POST['fname']
@@ -102,16 +102,16 @@ def Signup_User(request):
         reg = request.POST['reg']
         i = request.FILES['image']
         user = User.objects.create_user(email=e, username=u, password=p, first_name=f,last_name=l)
-        mem = Member_fee.objects.get(fee="Unpaid")
+        mem = MemberFee.objects.get(fee="Unpaid")
         if reg == "Bidder":
             sign = Bidder.objects.create(membership=mem,user=user,contact=con,address=add,dob=d2,image=i)
         else:
-            sign = Auction_User.objects.create(membership=mem,user=user,contact=con,address=add,dob=d2,image=i)
+            sign = AuctionUser.objects.create(membership=mem,user=user,contact=con,address=add,dob=d2,image=i)
         error = True
     d = {'error':error}
     return render(request,'signup.html',d)
 
-def Admin_Home(request):
+def adminHome(request):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -123,7 +123,7 @@ def Admin_Home(request):
     all_s = 0
     pro = Product.objects.all()
     bid = Bidder.objects.all()
-    sel = Auction_User.objects.all()
+    sel = AuctionUser.objects.all()
     for i in pro:
         all_p+=1
     for i in bid:
@@ -135,7 +135,7 @@ def Admin_Home(request):
     d = {'data':data,'count':count,'new2':new2,'all_p':all_p,'all_b':all_b,'all_s':all_s}
     return render(request,'admin_home.html',d)
 
-def Bidder_Home(request):
+def bidderHome(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -146,13 +146,13 @@ def Bidder_Home(request):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     if data.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
     d = {'error':error,'data':data}
     return render(request,'dashboard.html',d)
 
-def Profile1(request):
+def profile1(request):
     new2 = new()
     count = 0
     if new2:
@@ -165,19 +165,19 @@ def Profile1(request):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     user = User.objects.get(id=request.user.id)
     u = ""
     try:
         pro = Bidder.objects.get(user=user)
         u = "member"
     except:
-        pro = Auction_User.objects.get(user=user)
+        pro = AuctionUser.objects.get(user=user)
         u = "trainer"
     d = {'pro':pro,'error':error,'data':data,'count':count,'new2':new2}
     return render(request,'profile1.html',d)
 
-def Auction_Home(request):
+def auctionHome(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     sign = 0
@@ -188,9 +188,9 @@ def Auction_Home(request):
         if sign:
             error = "pat"
     except:
-        sign = Auction_User.objects.get(user=user)
+        sign = AuctionUser.objects.get(user=user)
     if sign.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
     d = {'error': error,'data':sign}
     return render(request,'dashboard.html',d)
 
@@ -205,25 +205,25 @@ def profile(request):
         if sign:
             error = "pat"
     except:
-        sign = Auction_User.objects.get(user=user)
+        sign = AuctionUser.objects.get(user=user)
     if sign.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
     user = User.objects.get(id=request.user.id)
     u=""
     try:
         pro = Bidder.objects.get(user=user)
         u = "member"
     except:
-        pro = Auction_User.objects.get(user=user)
+        pro = AuctionUser.objects.get(user=user)
         u = "trainer"
     d = {'pro':pro,'error':error,"u":u,'data':sign}
     return render(request,'profile.html',d)
 
-def Logout(request):
+def logout(request):
     logout(request)
     return redirect('home')
 
-def Change_Password(request):
+def changePassword(request):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -238,7 +238,7 @@ def Change_Password(request):
         if sign:
             error = "pat"
     except:
-        sign = Auction_User.objects.get(user=user)
+        sign = AuctionUser.objects.get(user=user)
     terror = ""
     if request.method=="POST":
         n = request.POST['pwd1']
@@ -254,7 +254,7 @@ def Change_Password(request):
     d = {'error':error,'terror':terror,'data':sign,'count':count,'new2':new2}
     return render(request,'change_password.html',d)
 
-def Change_Password1(request):
+def changePassword1(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     new2 = new()
@@ -269,9 +269,9 @@ def Change_Password1(request):
         if sign:
             error = "pat"
     except:
-        sign = Auction_User.objects.get(user=user)
+        sign = AuctionUser.objects.get(user=user)
     if sign.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
     terror = ""
     if request.method=="POST":
         n = request.POST['pwd1']
@@ -287,7 +287,7 @@ def Change_Password1(request):
     d = {'error':error,'terror':terror,'data':sign,'count':count,'new2':new2}
     return render(request,'change_password1.html',d)
 
-def Edit_Profile(request):
+def editProfile(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     new2 = new()
@@ -301,7 +301,7 @@ def Edit_Profile(request):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     terror = False
     if request.method == 'POST':
         f = request.POST['fname']
@@ -327,7 +327,7 @@ def Edit_Profile(request):
     d = {'terror':terror,'pro':pro,'data':pro,'count':count,'new2':new2}
     return render(request, 'edit_profile.html',d)
 
-def Edit_Profile1(request):
+def editProfile1(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     new2 = new()
@@ -341,9 +341,9 @@ def Edit_Profile1(request):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     if pro.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
     terror = False
     if request.method == 'POST':
         f = request.POST['fname']
@@ -369,7 +369,7 @@ def Edit_Profile1(request):
     d = {'terror':terror,'pro':pro,'data':pro,'count':count,'new2':new2}
     return render(request, 'edit_profile1.html',d)
 
-def Add_Category(request):
+def addCategory(request):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -383,7 +383,7 @@ def Add_Category(request):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     error = False
     if request.method == 'POST':
         n = request.POST['cat']
@@ -393,7 +393,7 @@ def Add_Category(request):
     return render(request, 'add_category.html',d)
 
 
-def Edit_Category(request,pid):
+def editCategory(request,pid):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -407,7 +407,7 @@ def Edit_Category(request,pid):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     error = False
     cat = Category.objects.get(id=pid)
     if request.method == 'POST':
@@ -418,13 +418,13 @@ def Edit_Category(request,pid):
     d = {'error':error,'pro':pro,'data':pro,'cat':cat,'count':count,'new2':new2}
     return render(request, 'edit_category.html',d)
 
-def delete_category(request,pid):
+def deleteCategory(request,pid):
     cat = Category.objects.get(id=pid)
     cat.delete()
     return redirect('view_category')
 
 
-def view_category(request):
+def viewCategory(request):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -438,12 +438,12 @@ def view_category(request):
         if pro:
             error = "pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     cat = Category.objects.all()
     d = {'error':error,'pro':pro,'data':pro,'cat':cat,'count':count,'new2':new2}
     return render(request,'view_category.html',d)
 
-def view_feedback(request):
+def viewFeedback(request):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -457,12 +457,12 @@ def view_feedback(request):
         if pro:
             error = "pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
-    cat = Send_Feedback.objects.all()
+        pro = AuctionUser.objects.get(user=user1)
+    cat = Feedback.objects.all()
     d = {'error':error,'pro':pro,'data':pro,'cat':cat,'count':count,'new2':new2}
     return render(request,'view_feedback.html',d)
 
-def Add_SubCategory(request):
+def addSubCategory(request):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -476,20 +476,20 @@ def Add_SubCategory(request):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     error = False
     cat = Category.objects.all()
     if request.method == 'POST':
         n = request.POST['cat']
         s = request.POST['scat']
         cat1 = Category.objects.get(name=n)
-        Sub_Category.objects.create(name=s,category=cat1)
+        SubCategory.objects.create(name=s,category=cat1)
         error = True
     d = {'error':error,'pro':pro,'data':pro,'cat':cat,'count':count,'new2':new2}
     return render(request, 'add_sub_category.html',d)
 
 
-def Edit_SubCategory(request,pid):
+def editSubCategory(request,pid):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -503,10 +503,10 @@ def Edit_SubCategory(request,pid):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     error = False
     cat = Category.objects.all()
-    subcat = Sub_Category.objects.get(id=pid)
+    subcat = SubCategory.objects.get(id=pid)
     if request.method == 'POST':
         n = request.POST['cat']
         s = request.POST['scat']
@@ -517,18 +517,18 @@ def Edit_SubCategory(request,pid):
     d = {'error':error,'pro':pro,'data':pro,'cat':cat,'subcat':subcat,'count':count,'new2':new2}
     return render(request, 'edit_subcategory.html',d)
 
-def delete_subcategory(request,pid):
-    cat = Sub_Category.objects.get(id=pid)
+def deleteSubcategory(request,pid):
+    cat = SubCategory.objects.get(id=pid)
     cat.delete()
     return redirect('view_subcategory')
 
-def delete_feedback(request,pid):
-    cat = Send_Feedback.objects.get(id=pid)
+def deleteFeedback(request,pid):
+    cat = Feedback.objects.get(id=pid)
     cat.delete()
     return redirect('view_feedback')
 
 
-def view_subcategory(request):
+def viewSubcategory(request):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -542,13 +542,13 @@ def view_subcategory(request):
         if pro:
             error = "pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
-    cat = Sub_Category.objects.all()
+        pro = AuctionUser.objects.get(user=user1)
+    cat = SubCategory.objects.all()
     d = {'error':error,'pro':pro,'data':pro,'cat':cat,'count':count,'new2':new2}
     return render(request,'view_subcategory.html',d)
 
 
-def Add_Session_date(request):
+def addSessionDate(request):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -562,17 +562,17 @@ def Add_Session_date(request):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     error = False
     if request.method == 'POST':
         d = request.POST['date']
-        cat1 = Session_date.objects.create(date=d)
+        cat1 = SessionDate.objects.create(date=d)
         error = True
     d = {'error':error,'pro':pro,'data':pro,'count':count,'new2':new2}
     return render(request, 'Add_session_date.html',d)
 
 
-def Edit_Session_date(request,pid):
+def editSessionDate(request,pid):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -586,9 +586,9 @@ def Edit_Session_date(request,pid):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     error = False
-    ses = Session_date.objects.get(id=pid)
+    ses = SessionDate.objects.get(id=pid)
     if request.method == 'POST':
         n = request.POST['date']
         ses.date = n
@@ -597,13 +597,13 @@ def Edit_Session_date(request,pid):
     d = {'error':error,'pro':pro,'data':pro,'ses':ses,'count':count,'new2':new2}
     return render(request, 'edit_session_date.html',d)
 
-def delete_session_date(request,pid):
-    cat = Session_date.objects.get(id=pid)
+def deleteSessionDate(request,pid):
+    cat = SessionDate.objects.get(id=pid)
     cat.delete()
     return redirect('view_session_date')
 
 
-def view_session_date(request):
+def viewSessionDate(request):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -617,13 +617,13 @@ def view_session_date(request):
         if pro:
             error = "pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
-    cat = Session_date.objects.all()
+        pro = AuctionUser.objects.get(user=user1)
+    cat = SessionDate.objects.all()
     d = {'error':error,'pro':pro,'data':pro,'date1':cat,'count':count,'new2':new2}
     return render(request,'view_session_date.html',d)
 
 
-def Add_Session_time(request):
+def addSessionTime(request):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -637,19 +637,19 @@ def Add_Session_time(request):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     error = False
-    sed = Session_date.objects.all()
+    sed = SessionDate.objects.all()
     if request.method == 'POST':
         d = request.POST['date']
         t = request.POST['time']
-        d1 = Session_date.objects.get(date=d)
-        cat1 = Session_Time.objects.create(date=d1,time=t)
+        d1 = SessionDate.objects.get(date=d)
+        cat1 = SessionTime.objects.create(date=d1,time=t)
         error = True
     d = {'error':error,'pro':pro,'data':pro,'sed':sed,'count':count,'new2':new2}
     return render(request, 'add_session_time.html',d)
 
-def New_product(request):
+def newProduct(request):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -663,14 +663,14 @@ def New_product(request):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     error = False
     st = Status.objects.get(status = "pending")
     prod = Aucted_Product.objects.all()
     d = {'error':error,'pro':pro,'data':pro,'prod':prod,'count':count,'new2':new2}
     return render(request, 'new_product.html',d)
 
-def All_product2(request):
+def allProduct2(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     new2 = new()
@@ -684,7 +684,7 @@ def All_product2(request):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     error = False
     st = Status.objects.get(status = "pending")
     prod = Aucted_Product.objects.all()
@@ -692,7 +692,7 @@ def All_product2(request):
     return render(request, 'all_product2.html',d)
 
 
-def Bidder_User(request):
+def bidderUser(request):
     if not request.user.is_staff:
         return redirect('login_user')
     user1 = User.objects.get(id=request.user.id)
@@ -702,14 +702,14 @@ def Bidder_User(request):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     error = False
     st = Status.objects.get(status = "pending")
     prod = Bidder.objects.all()
     d = {'error':error,'pro':pro,'data':pro,'prod':prod}
     return render(request, 'new_user.html',d)
 
-def Seller_User(request):
+def sellerUser(request):
     if not request.user.is_staff:
         return redirect('login_user')
     user1 = User.objects.get(id=request.user.id)
@@ -719,10 +719,10 @@ def Seller_User(request):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     error = False
     st = Status.objects.get(status = "pending")
-    prod = Auction_User.objects.all()
+    prod = AuctionUser.objects.all()
     d = {'error':error,'pro':pro,'data':pro,'prod':prod}
     return render(request, 'auction_user.html',d)
 
@@ -740,13 +740,13 @@ def result(request):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     error = True
     pro1 = Participant.objects.all()
     d = {'error':error,'pro':pro1,'data':pro,'count':count,'new2':new2}
     return render(request, 'result.html',d)
 
-def Winner(request,pid):
+def winner(request,pid):
     if not request.user.is_authenticated:
         return redirect('login_user')
     new2 = new()
@@ -761,13 +761,13 @@ def Winner(request,pid):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     error = False
     pro1 = Participant.objects.get(id=pid)
     d = {'error':error,'pro':pro1,'data':pro,'count':count,'new2':new2}
     return render(request, 'winner_announced.html',d)
 
-def Winner2(request,pid):
+def winner2(request,pid):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -778,10 +778,10 @@ def Winner2(request,pid):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
 
     if data.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
     pro2 = Product.objects.get(id=pid)
     au = Aucted_Product.objects.get(product=pro2)
     re = Result.objects.get(result="Winner")
@@ -789,7 +789,7 @@ def Winner2(request,pid):
     d = {'pro': pro1, 'error': error}
     return render(request, 'winner2.html', d)
 
-def Winner1(request,pid):
+def winner1(request,pid):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -800,9 +800,9 @@ def Winner1(request,pid):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     if data.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
     pro2 = Product.objects.get(id=pid)
     au = Aucted_Product.objects.get(product=pro2)
     re = Result.objects.get(result="Winner")
@@ -820,7 +820,7 @@ def Winner1(request,pid):
 
 
 
-def Edit_Session_time(request,pid):
+def editSessionTime(request,pid):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -834,14 +834,14 @@ def Edit_Session_time(request,pid):
         if pro:
             error="pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
+        pro = AuctionUser.objects.get(user=user1)
     error = False
-    sed = Session_date.objects.all()
-    sett = Session_Time.objects.get(id=pid)
+    sed = SessionDate.objects.all()
+    sett = SessionTime.objects.get(id=pid)
     if request.method == 'POST':
         d = request.POST['date']
         t = request.POST['time']
-        sedd = Session_date.objects.get(id=d)
+        sedd = SessionDate.objects.get(id=d)
         sett.date = sedd
         sett.time = t
         sett.save()
@@ -849,13 +849,13 @@ def Edit_Session_time(request,pid):
     d = {'error':error,'pro':pro,'data':pro,'sed':sed,'sett':sett,'count':count,'new2':new2}
     return render(request, 'edit_session_time.html',d)
 
-def delete_session_time(request,pid):
-    cat = Session_Time.objects.get(id=pid)
+def deleteSessionTime(request,pid):
+    cat = SessionTime.objects.get(id=pid)
     cat.delete()
     return redirect('view_session_time')
 
 
-def view_session_time(request):
+def viewSessionTime(request):
     if not request.user.is_staff:
         return redirect('login_user')
     new2 = new()
@@ -869,13 +869,13 @@ def view_session_time(request):
         if pro:
             error = "pat"
     except:
-        pro = Auction_User.objects.get(user=user1)
-    cat = Session_Time.objects.all()
+        pro = AuctionUser.objects.get(user=user1)
+    cat = SessionTime.objects.all()
     d = {'error':error,'pro':pro,'data':pro,'time1':cat,'count':count,'new2':new2}
     return render(request,'view_session_time.html',d)
 
 
-def Feedback(request):
+def feedback(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -886,16 +886,16 @@ def Feedback(request):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     if data.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
     date1 = datetime.date.today()
     user = User.objects.get(id=request.user.id)
     pro = ""
     try:
         pro = Bidder.objects.filter(user=user).first()
     except:
-        pro = Auction_User.objects.filter(user=user).first()
+        pro = AuctionUser.objects.filter(user=user).first()
     terror = False
     if request.method == "POST":
         d = request.POST['date']
@@ -907,14 +907,14 @@ def Feedback(request):
         try:
             pro = Bidder.objects.filter(user=user, contact=con).first()
         except:
-            pro = Auction_User.objects.filter(user=user, contact=con).first()
-        Send_Feedback.objects.create(profile=user, date=d, message1=m)
+            pro = AuctionUser.objects.filter(user=user, contact=con).first()
+        Feedback.objects.create(profile=user, date=d, message1=m)
         terror = True
     d = {'pro': pro, 'date1': date1,'terror':terror,'error':error}
     return render(request, 'feedback.html', d)
 
 
-def Add_Product(request):
+def addProduct(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -925,15 +925,15 @@ def Add_Product(request):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     if data.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
     date1 = datetime.date.today()
-    sed = Session_date.objects.all()
-    sett = Session_Time.objects.all()
+    sed = SessionDate.objects.all()
+    sett = SessionTime.objects.all()
     cat = Category.objects.all()
-    scat = Sub_Category.objects.all()
-    sell = Auction_User.objects.get(user=user)
+    scat = SubCategory.objects.all()
+    sell = AuctionUser.objects.get(user=user)
     terror = False
     if request.method == "POST":
         c = request.POST['cat']
@@ -943,8 +943,8 @@ def Add_Product(request):
         i = request.FILES['image']
         sett1 = request.POST['time']
         sed1 = request.POST['date']
-        sub = Sub_Category.objects.get(id=s)
-        ses = Session_Time.objects.get(id=sett1)
+        sub = SubCategory.objects.get(id=s)
+        ses = SessionTime.objects.get(id=sett1)
         sta = Status.objects.get(status="pending")
         pro1=Product.objects.create(status=sta,session=ses,category=sub,name=p, min_price=pr, image=i)
         auc=Aucted_Product.objects.create(product=pro1,user=sell)
@@ -952,27 +952,27 @@ def Add_Product(request):
     d = {'sed': sed,'sett':sett,'cat': cat,'scat':scat,'date1': date1,'terror':terror,'error':error}
     return render(request, 'add_product.html', d)
 
-def load_courses(request):
+def loadCourses(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     programming_id = request.GET.get('programming')
     # programming_id1 = request.GET.get('programming1')
     # print(programming_id,11111111111111111,programming_id1)
-    courses = Sub_Category.objects.filter(category_id=programming_id).order_by('name')
-    # courses1 = Session_Time.objects.filter(date_id=programming_id1).order_by('name')
+    courses = SubCategory.objects.filter(category_id=programming_id).order_by('name')
+    # courses1 = SessionTime.objects.filter(date_id=programming_id1).order_by('name')
     return render(request, 'courses_dropdown_list_options.html', {'courses': courses})
 
-def load_courses1(request):
+def loadCourses1(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     programming_id = request.GET.get('programming')
-    courses = Session_Time.objects.filter(date_id=programming_id)
+    courses = SessionTime.objects.filter(date_id=programming_id)
     return render(request, 'courses_dropdown_list_options1.html', {'courses': courses})
 
 
 
 
-def view_auction(request,pid):
+def viewAuction(request,pid):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -983,9 +983,9 @@ def view_auction(request,pid):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     if data.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
     terror = False
     if request.method == "POST":
         pro1 = Product.objects.get(id=pid)
@@ -1054,7 +1054,7 @@ def view_auction(request,pid):
     d = {'pro':pro1,'error':error,'terror':terror,'message1':message1}
     return render(request,'view_auction.html',d)
 
-def All_product(request):
+def allProduct(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -1065,15 +1065,15 @@ def All_product(request):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
 
     if data.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
     pro = Aucted_Product.objects.filter(user=data)
     d = {'pro':pro,'error':error}
     return render(request,'All_prodcut.html',d)
 
-def product_detail(request,pid):
+def productDetail(request,pid):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -1084,9 +1084,9 @@ def product_detail(request,pid):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     if data.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
     pro = Product.objects.get(id=pid)
     end = pro.session.time.split(':')
     end1=""
@@ -1099,7 +1099,7 @@ def product_detail(request,pid):
     d = {'pro':pro,'pro1':pro1,'error':error,'end2':end2}
     return render(request,'product_detail.html',d)
 
-def product_detail2(request,pid):
+def productDetail2(request,pid):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -1110,7 +1110,7 @@ def product_detail2(request,pid):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
 
     pro = Product.objects.get(id=pid)
     end = pro.session.time.split(':')
@@ -1124,7 +1124,7 @@ def product_detail2(request,pid):
     d = {'pro':pro,'pro1':pro1,'error':error,'data':data,'end2':end2}
     return render(request,'product_detail2.html',d)
 
-def Bidding_Status(request):
+def biddingStatus(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -1135,14 +1135,14 @@ def Bidding_Status(request):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     if data.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
     pro = Participant.objects.filter(user=data)
     d = {'pro':pro,'error':error}
     return render(request,'bidding_status.html',d)
 
-def Bidding_Status2(request):
+def biddingStatus2(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -1153,14 +1153,14 @@ def Bidding_Status2(request):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     if data.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
     pro1 =  Aucted_Product.objects.filter(user=data)
     d = {'pro':pro1,'error':error}
     return render(request,'bidding_status2.html',d)
 
-def Participated_user(request,pid):
+def participatedUser(request,pid):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -1171,9 +1171,9 @@ def Participated_user(request,pid):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     if data.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
     auc = Aucted_Product.objects.get(id=pid)
     pro1 =  Participant.objects.filter(aucted_product=auc)
     message1=""
@@ -1182,7 +1182,7 @@ def Participated_user(request,pid):
     d = {'part':pro1,'error':error,'message1':message1}
     return render(request,'particpated_user.html',d)
 
-def Payment_mode(request,pid):
+def paymentMode(request,pid):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -1193,14 +1193,14 @@ def Payment_mode(request,pid):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     if data.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
 
     d = {'error':error,'pid':pid}
     return render(request,'payment_mode.html',d)
 
-def Member_Payment_mode(request):
+def memberPaymentMode(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -1211,12 +1211,12 @@ def Member_Payment_mode(request):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
 
     d = {'error':error,'data':data}
     return render(request,'member_Payment.html',d)
 
-def Google_pay(request,pid):
+def googlePay(request,pid):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -1227,7 +1227,7 @@ def Google_pay(request,pid):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     total = Participant.objects.get(id=pid)
     terror=False
     if request.method=="POST":
@@ -1238,7 +1238,7 @@ def Google_pay(request,pid):
     d = {'error':error,'total':total,'terror':terror}
     return render(request,'google_pay.html',d)
 
-def Member_Google_pay(request):
+def memberGooglePay(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -1249,17 +1249,17 @@ def Member_Google_pay(request):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     terror=False
     if request.method=="POST":
-        mem = Member_fee.objects.get(fee="Paid")
+        mem = MemberFee.objects.get(fee="Paid")
         data.membership = mem
         data.save()
         terror=True
     d = {'error':error,'terror':terror}
     return render(request,'member_google_pay.html',d)
 
-def Credit_Card(request,pid):
+def creditCard(request,pid):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -1270,7 +1270,7 @@ def Credit_Card(request,pid):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     terror = False
     total = Participant.objects.get(id=pid)
     if request.method=="POST":
@@ -1281,7 +1281,7 @@ def Credit_Card(request,pid):
     d = {'error':error,'total':total,'terror':terror}
     return render(request,'payment2.html',d)
 
-def Member_Credit_Card(request):
+def memberCreditCard(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -1292,23 +1292,23 @@ def Member_Credit_Card(request):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     terror = False
     if request.method=="POST":
-        mem = Member_fee.objects.get(fee="Paid")
+        mem = MemberFee.objects.get(fee="Paid")
         data.membership = mem
         data.save()
         terror =True
     d = {'error':error,'terror':terror}
     return render(request,'member_payment2.html',d)
-def view_popup(request):
+def viewPopup(request):
     if not request.user.is_authenticated:
         return redirect('login_user')
     error=True
     d = {'error':error}
     return render(request,'view_popup.html',d)
 
-def Start_Auction(request,pid):
+def startAuction(request,pid):
     if not request.user.is_authenticated:
         return redirect('login_user')
     data = 0
@@ -1319,9 +1319,9 @@ def Start_Auction(request,pid):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     if data.membership.fee == "Unpaid":
-        return redirect('Member_Payment_mode')
+        return redirect('memberPaymentMode')
 
     pro4 = Product.objects.get(id=pid)
     end = pro4.session.time.split(':')
@@ -1401,7 +1401,7 @@ def Start_Auction(request,pid):
     d = {'pro':pro1,'pro2':pro2,'end2':end2,'error':error,'terror':terror}
     return render(request,'start_auction.html',d)
 
-def Change_status(request,pid):
+def changeStatus(request,pid):
     if not request.user.is_authenticated:
         return redirect('login_user')
     new2 = new()
@@ -1416,7 +1416,7 @@ def Change_status(request,pid):
         if data:
             error = "pat"
     except:
-        data = Auction_User.objects.get(user=user)
+        data = AuctionUser.objects.get(user=user)
     terror = False
     pro1 = Product.objects.get(id=pid)
     if request.method == "POST":
@@ -1428,7 +1428,7 @@ def Change_status(request,pid):
     d = {'pro':pro1,'error':error,'terror':terror,'data':data,'count':count,'new2':new2}
     return render(request,'status.html',d)
 
-def winner_announced(request):
+def winnerAnnounced(request):
     return redirect('result')
 
 
