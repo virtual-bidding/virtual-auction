@@ -666,7 +666,7 @@ def newProduct(request):
         pro = AuctionUser.objects.get(user=user1)
     error = False
     st = Status.objects.get(status = "pending")
-    prod = Aucted_Product.objects.all()
+    prod = AuctedProduct.objects.all()
     d = {'error':error,'pro':pro,'data':pro,'prod':prod,'count':count,'new2':new2}
     return render(request, 'new_product.html',d)
 
@@ -687,7 +687,7 @@ def allProduct2(request):
         pro = AuctionUser.objects.get(user=user1)
     error = False
     st = Status.objects.get(status = "pending")
-    prod = Aucted_Product.objects.all()
+    prod = AuctedProduct.objects.all()
     d = {'error':error,'pro':pro,'data':pro,'prod':prod,'count':count,'new2':new2}
     return render(request, 'all_product2.html',d)
 
@@ -783,7 +783,7 @@ def winner2(request,pid):
     if data.membership.fee == "Unpaid":
         return redirect('memberPaymentMode')
     pro2 = Product.objects.get(id=pid)
-    au = Aucted_Product.objects.get(product=pro2)
+    au = AuctedProduct.objects.get(product=pro2)
     re = Result.objects.get(result="Winner")
     pro1 = Participant.objects.get(aucted_product=au, result=re)
     d = {'pro': pro1, 'error': error}
@@ -804,7 +804,7 @@ def winner1(request,pid):
     if data.membership.fee == "Unpaid":
         return redirect('memberPaymentMode')
     pro2 = Product.objects.get(id=pid)
-    au = Aucted_Product.objects.get(product=pro2)
+    au = AuctedProduct.objects.get(product=pro2)
     re = Result.objects.get(result="Winner")
     pro1 = ""
     # print("hiii",pro1)
@@ -947,7 +947,7 @@ def addProduct(request):
         ses = SessionTime.objects.get(id=sett1)
         sta = Status.objects.get(status="pending")
         pro1=Product.objects.create(status=sta,session=ses,category=sub,name=p, min_price=pr, image=i)
-        auc=Aucted_Product.objects.create(product=pro1,user=sell)
+        auc=AuctedProduct.objects.create(product=pro1,user=sell)
         terror = True
     d = {'sed': sed,'sett':sett,'cat': cat,'scat':scat,'date1': date1,'terror':terror,'error':error}
     return render(request, 'add_product.html', d)
@@ -989,7 +989,7 @@ def viewAuction(request,pid):
     terror = False
     if request.method == "POST":
         pro1 = Product.objects.get(id=pid)
-        auc = Aucted_Product.objects.get(product=pro1)
+        auc = AuctedProduct.objects.get(product=pro1)
         Participant.objects.create(user=data,aucted_product=auc)
         terror = True
     pid = 0
@@ -1069,7 +1069,7 @@ def allProduct(request):
 
     if data.membership.fee == "Unpaid":
         return redirect('memberPaymentMode')
-    pro = Aucted_Product.objects.filter(user=data)
+    pro = AuctedProduct.objects.filter(user=data)
     d = {'pro':pro,'error':error}
     return render(request,'All_prodcut.html',d)
 
@@ -1095,7 +1095,7 @@ def productDetail(request,pid):
     else:
         end1 = str(int(end[0])+1)
     end2 = end1+":"+end[1]
-    pro1 = Aucted_Product.objects.get(product=pro)
+    pro1 = AuctedProduct.objects.get(product=pro)
     d = {'pro':pro,'pro1':pro1,'error':error,'end2':end2}
     return render(request,'product_detail.html',d)
 
@@ -1120,7 +1120,7 @@ def productDetail2(request,pid):
     else:
         end1 = str(int(end[0]) + 1)
     end2 = end1 + ":" + end[1]
-    pro1 = Aucted_Product.objects.get(product=pro)
+    pro1 = AuctedProduct.objects.get(product=pro)
     d = {'pro':pro,'pro1':pro1,'error':error,'data':data,'end2':end2}
     return render(request,'product_detail2.html',d)
 
@@ -1156,7 +1156,7 @@ def biddingStatus2(request):
         data = AuctionUser.objects.get(user=user)
     if data.membership.fee == "Unpaid":
         return redirect('memberPaymentMode')
-    pro1 =  Aucted_Product.objects.filter(user=data)
+    pro1 =  AuctedProduct.objects.filter(user=data)
     d = {'pro':pro1,'error':error}
     return render(request,'bidding_status2.html',d)
 
@@ -1174,7 +1174,7 @@ def participatedUser(request,pid):
         data = AuctionUser.objects.get(user=user)
     if data.membership.fee == "Unpaid":
         return redirect('memberPaymentMode')
-    auc = Aucted_Product.objects.get(id=pid)
+    auc = AuctedProduct.objects.get(id=pid)
     pro1 =  Participant.objects.filter(aucted_product=auc)
     message1=""
     if not pro1:
@@ -1331,7 +1331,7 @@ def startAuction(request,pid):
     else:
         end1 = str(int(end[0]) + 1)
     end2 = end1 + ":" + end[1]
-    c = Aucted_Product.objects.get(product=pro4)
+    c = AuctedProduct.objects.get(product=pro4)
     pro1=""
     try:
         pro1 = Participant.objects.get(user=data, aucted_product=c)
