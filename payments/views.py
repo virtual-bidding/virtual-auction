@@ -22,7 +22,7 @@ def order_payment(request):
             request,
             "payment.html",
             {
-                "callback_url": "http://" + "127.0.0.1:8000" + "/razorpay/callback/",
+                "callback_url": "http://" + "virtual-auction.herokuapp.com" + "/razorpay/callback/",
                 "razorpay_key": 'rzp_test_SB0rBFhDAVWgV5',
                 "order": order,
             },
@@ -45,11 +45,6 @@ def callback(request):
         if not verify_signature(request.POST):
             order.status = PaymentStatus.SUCCESS
             order.save()
-            total = Participant.objects.get(id=pid)
-            if request.method=="POST":
-                pay = Payment.objects.get(pay="paid")
-                total.payment=pay
-                total.save()
             return render(request, "callback.html", context={"status": order.status})
         else:
             order.status = PaymentStatus.FAILURE
