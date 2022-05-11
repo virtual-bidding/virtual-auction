@@ -305,12 +305,11 @@
 
     <!-- Start slider -->
     {% load static %}
-    <div class="container">
+    <div class="container-fluid">
       <!--Slideshow starts here -->
       <center>
         <h2
           style="
-            padding-top: ;
             margin-top: 5%;
             font-weight: bold;
             font-family: 'Monotype Corsiva';
@@ -393,7 +392,8 @@
                       </div>
                       {% endcomment %} {% if forloop.counter|divisibleby:4 and
                       forloop.counter > 0 and not forloop.last %}
-                      <div class="carousel-item">{% endif %} {% endfor %}</div>
+                      <div class="carousel-item"></div>
+                      {% endfor %}
                       <!-- left and right controls for the slide -->
                       <a
                         class="carousel-control-prev"

@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 def order_payment(request):
     if request.method == "POST":
+        url = request.POST.get('url')
         name = request.POST.get("name")
         amount = request.POST.get("amount")
         razorpay_order = client.order.create(
@@ -22,7 +23,7 @@ def order_payment(request):
             request,
             "payment.html",
             {
-                "callback_url": "http://" + "virtual-auction.herokuapp.com" + "/razorpay/callback/",
+                "callback_url": "http://" + url + "/razorpay/callback/",
                 "razorpay_key": 'rzp_test_SB0rBFhDAVWgV5',
                 "order": order,
             },

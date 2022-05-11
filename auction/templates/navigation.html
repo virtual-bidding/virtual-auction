@@ -138,236 +138,277 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg" style="background-color: #75003a">
+    <nav
+      class="navbar navbar-expand-lg navbar-dark"
+      style="background-color: #75003a"
+    >
       <div class="container">
         <!-- Brand -->
         <a class="navbar-brand" href="/" style="color: lime"> Auction </a>
 
-        <!-- Links -->
-        <ul class="navbar-nav mr-auto">
-          {% if request.user.username %} {% ifequal error "pat" %}
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="{% url 'profile1' %}"
-              style="color: White"
-            >
-              <ion-icon style="margin-right: 4px" name="home-sharp"></ion-icon>
-              HOME
-            </a>
-          </li>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- Links -->
+          <ul class="navbar-nav mr-auto">
+            {% if request.user.username %} {% ifequal error "pat" %}
 
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="{% url 'view_auction' 0 %}"
-              style="color: White"
-            >
-              <ion-icon style="margin-right: 4px" name="hammer"></ion-icon>
-              Auction
-            </a>
-          </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'profile1' %}"
+                style="color: White"
+              >
+                <ion-icon
+                  style="margin-right: 4px"
+                  name="home-sharp"
+                ></ion-icon>
+                HOME
+              </a>
+            </li>
 
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="{% url 'bidding_status' %}"
-              style="color: White"
-            >
-              <ion-icon style="margin-right: 4px" name="pulse"></ion-icon>
-              Bidding Status
-            </a>
-          </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'view_auction' 0 %}"
+                style="color: White"
+              >
+                <ion-icon style="margin-right: 4px" name="hammer"></ion-icon>
+                Auction
+              </a>
+            </li>
 
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="{% url 'feedback' %}"
-              style="color: White"
-            >
-              <ion-icon style="margin-right: 4px" name="aperture"></ion-icon>
-              Feedback
-            </a>
-          </li>
-          {% comment %}
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'bidding_status' %}"
+                style="color: White"
+              >
+                <ion-icon style="margin-right: 4px" name="pulse"></ion-icon>
+                Bidding Status
+              </a>
+            </li>
 
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="{% url 'change_password1' %}"
-              style="color: White"
-            >
-              <ion-icon
-                style="margin-right: 4px"
-                name="document-text-sharp"
-              ></ion-icon
-              >CHANGE PASSWORD
-            </a>
-          </li>
-          {% endcomment %} {% else %}
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="{% url 'profile1' %}"
-              style="color: White"
-            >
-              <ion-icon style="margin-right: 2px" name="home-sharp"></ion-icon>
-              HOME
-            </a>
-          </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'feedback' %}"
+                style="color: White"
+              >
+                <ion-icon style="margin-right: 4px" name="aperture"></ion-icon>
+                Feedback
+              </a>
+            </li>
+            {% comment %}
 
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="{% url 'add_product' %}"
-              style="color: White"
-            >
-              <ion-icon style="margin-right: 2px" name="eye"></ion-icon> Add
-              Product
-            </a>
-          </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'change_password1' %}"
+                style="color: White"
+              >
+                <ion-icon
+                  style="margin-right: 4px"
+                  name="document-text-sharp"
+                ></ion-icon
+                >CHANGE PASSWORD
+              </a>
+            </li>
+            {% endcomment %} {% else %}
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'profile1' %}"
+                style="color: White"
+              >
+                <ion-icon
+                  style="margin-right: 2px"
+                  name="home-sharp"
+                ></ion-icon>
+                HOME
+              </a>
+            </li>
 
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="{% url 'all_product' %}"
-              style="color: White"
-            >
-              <ion-icon style="margin-right: 2px" name="eye"></ion-icon> All
-              Product
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="{% url 'bidding_status2' %}"
-              style="color: White"
-            >
-              <ion-icon style="margin-right: 2px" name="aperture"></ion-icon>
-              Bidding Status
-            </a>
-          </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'add_product' %}"
+                style="color: White"
+              >
+                <ion-icon style="margin-right: 2px" name="eye"></ion-icon> Add
+                Product
+              </a>
+            </li>
 
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="{% url 'feedback' %}"
-              style="color: White"
-            >
-              <ion-icon style="margin-right: 2px" name="send"></ion-icon>
-              Feedback
-            </a>
-          </li>
-          {% endifequal %} {% else %} {% comment %} main nav {% endcomment %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'home'  %}" style="color: white">
-              <ion-icon style="margin-right: 2px" name="home-sharp"></ion-icon
-              ><b>HOME</b>
-            </a>
-          </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'all_product' %}"
+                style="color: White"
+              >
+                <ion-icon style="margin-right: 2px" name="eye"></ion-icon> All
+                Product
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'bidding_status2' %}"
+                style="color: White"
+              >
+                <ion-icon style="margin-right: 2px" name="aperture"></ion-icon>
+                Bidding Status
+              </a>
+            </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'about' %}" style="color: white">
-              <ion-icon
-                style="margin-right: 2px"
-                name="briefcase-sharp"
-              ></ion-icon
-              ><b>ABOUT</b>
-            </a>
-          </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'feedback' %}"
+                style="color: White"
+              >
+                <ion-icon style="margin-right: 2px" name="send"></ion-icon>
+                Feedback
+              </a>
+            </li>
+            {% endifequal %} {% else %} {% comment %} main nav {% endcomment %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home'  %}" style="color: white">
+                <ion-icon style="margin-right: 2px" name="home-sharp"></ion-icon
+                ><b>HOME</b>
+              </a>
+            </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'contact' %}" style="color: white">
-              <ion-icon
-                style="margin-right: 2px"
-                name="phone-portrait-sharp"
-              ></ion-icon
-              ><b>CONTACT</b>
-            </a>
-          </li>
-          <!-- 
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'about' %}" style="color: white">
+                <ion-icon
+                  style="margin-right: 2px"
+                  name="briefcase-sharp"
+                ></ion-icon
+                ><b>ABOUT</b>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'contact' %}"
+                style="color: white"
+              >
+                <ion-icon
+                  style="margin-right: 2px"
+                  name="phone-portrait-sharp"
+                ></ion-icon
+                ><b>CONTACT</b>
+              </a>
+            </li>
+            <!-- 
     <li class="nav-item">
       <a class="nav-link" href="{% url 'bot' %}" style="color:white"><ion-icon style="margin-right:2px" name="phone-portrait-sharp"></ion-icon><b>Chatbot</b></a>
     </li> -->
 
-          {% endif %}
-        </ul>
-        <div class="navbar-text">
-          {% if request.user.is_authenticated %} {% comment %}
-          <a class="nav-link" href="{% url 'logout' %}" style="color: White"
-            ><ion-icon style="margin-right: 2px" name="power-sharp"></ion-icon
-            >LOGOUT</a
-          >
-          {% endcomment %} {% if not request.user.is_staff %}
-          <div class="btn-group">
-            <button
-              type="button"
-              class="btn btn-primary dropdown-toggle"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <ion-icon
-                style="margin-right: 4px; color: White"
-                name="person-circle-sharp"
-              ></ion-icon
-              >Welcome {{request.user.first_name}}
-            </button>
-            <div class="dropdown-menu">
-              {% comment %}
-              <a class="dropdown-item" href="{% url 'profile1' %}"
-                >VIEW PROFILE</a
-              >
-              {% endcomment %}
-              <a class="dropdown-item" href="{% url 'edit_profile1' %}"
-                >EDIT PROFILE</a
-              >
-              <a class="dropdown-item" href="{% url 'change_password1' %}"
-                >CHANGE PASSWORD</a
-              >
-              <a class="dropdown-item" href="{% url 'logout' %}">LOGOUT</a>
-            </div>
-          </div>
-          {% else %}
-
-          <li class="nav-item">
-            <h5 class="nav-link" style="color: red">
-              <ion-icon
-                style="margin-right: 4px; color: white"
-                name="person-circle-sharp"
-              ></ion-icon
-              >Welcome {{request.user.username}}
-            </h5>
-          </li>
-          {% endif %} {% else %}
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                href="{% url 'login_user' %}"
-                style="color: white; text-align: right"
-                ><ion-icon
-                  style="margin-right: 2px"
-                  name="log-in-sharp"
-                ></ion-icon
-                ><b>USER LOGIN</b></a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                href="{% url 'login_admin' %}"
-                style="color: white; text-align: right"
-                ><ion-icon
-                  style="margin-right: 2px"
-                  name="log-in-sharp"
-                ></ion-icon
-                ><b>ADMIN</b> LOGIN</a
-              >
-            </li>
+            {% endif %}
           </ul>
-          {% endif %}
+          <div class="navbar-text">
+            {% if request.user.is_authenticated %} {% comment %}
+            <a class="nav-link" href="{% url 'logout' %}" style="color: White"
+              ><ion-icon style="margin-right: 2px" name="power-sharp"></ion-icon
+              >LOGOUT</a
+            >
+            {% endcomment %} {% if not request.user.is_staff %}
+            <div class="btn-group">
+              <button
+                type="button"
+                class="btn btn-primary dropdown-toggle"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <ion-icon
+                  style="margin-right: 4px; color: White"
+                  name="person-circle-sharp"
+                ></ion-icon
+                >Welcome {{request.user.first_name}}
+              </button>
+              <div class="dropdown-menu">
+                {% comment %}
+                <a
+                  class="dropdown-item"
+                  href="{% url 'profile1' %}"
+                  style="color: #000000"
+                  >VIEW PROFILE</a
+                >
+                {% endcomment %}
+                <a
+                  class="dropdown-item"
+                  href="{% url 'edit_profile1' %}"
+                  style="color: #000000"
+                  >EDIT PROFILE</a
+                >
+                <a
+                  class="dropdown-item"
+                  href="{% url 'change_password1' %}"
+                  style="color: #000000"
+                  >CHANGE PASSWORD</a
+                >
+                <a
+                  class="dropdown-item"
+                  href="{% url 'logout' %}"
+                  style="color: #000000"
+                  >LOGOUT</a
+                >
+              </div>
+            </div>
+            {% else %}
+
+            <li class="nav-item">
+              <h5 class="nav-link" style="color: red">
+                <ion-icon
+                  style="margin-right: 4px; color: white"
+                  name="person-circle-sharp"
+                ></ion-icon
+                >Welcome {{request.user.username}}
+              </h5>
+            </li>
+            {% endif %} {% else %}
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="{% url 'login_user' %}"
+                  style="color: white; text-align: right"
+                  ><ion-icon
+                    style="margin-right: 2px"
+                    name="log-in-sharp"
+                  ></ion-icon
+                  ><b>USER LOGIN</b></a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="{% url 'login_admin' %}"
+                  style="color: white; text-align: right"
+                  ><ion-icon
+                    style="margin-right: 2px"
+                    name="log-in-sharp"
+                  ></ion-icon
+                  ><b>ADMIN</b> LOGIN</a
+                >
+              </li>
+            </ul>
+            {% endif %}
+          </div>
         </div>
       </div>
     </nav>
